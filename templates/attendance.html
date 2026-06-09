@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ================= HEADER ================= */
+        .header {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: white;
+            padding: 18px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .welcome-text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .sub-text {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #1e40af;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #e5e7eb;
+        }
+
+        /* ================= CONTAINER ================= */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        /* ================= FILTERS ================= */
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .filters input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .filters button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .filters button:first-of-type {
+            background: #2563eb;
+            color: white;
+        }
+
+        .filters button:first-of-type:hover {
+            background: #1d4ed8;
+        }
+
+        .filters button:last-of-type {
+            background: #e5e7eb;
+        }
+
+        /* ================= TABLE ================= */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        th {
+            background: #0f172a;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        /* ================= MOBILE ================= */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filters input,
+            .filters button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<div class="header">
+    <div class="container">
+        <div class="header-content">
+
+            <div>
+                <div class="welcome-text">
+                    👋 Welcome Back
+                </div>
+                <div class="sub-text">
+                    Attendance Management System
+                </div>
+            </div>
+
+            <a href="/logout" class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+    </div>
+</div>
+
+<!-- ================= BODY ================= -->
+<div class="container">
+
+    <h2>My Attendance</h2>
+
+    <!-- FILTERS -->
+    <div class="filters">
+
+        <input type="text" id="nameFilter" placeholder="Search Name">
+
+        <input type="date" id="startDate">
+
+        <input type="date" id="endDate">
+
+        <button onclick="applyFilter()">Filter</button>
+
+        <button onclick="resetFilter()">Reset</button>
+
+    </div>
+
+    <!-- TABLE -->
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Address</th>
+                <th>Date Time</th>
+            </tr>
+        </thead>
+
+        <tbody id="attendanceTable"></tbody>
+    </table>
+
+</div>
+
+<script src="/static/js/view_attendance.js"></script>
+
+</body>
+</html>

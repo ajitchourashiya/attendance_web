@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background:linear-gradient(135deg,#0f172a,#1e293b);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+        }
+
+        .container{
+            width:100%;
+            max-width:700px;
+        }
+
+        .card{
+            background:#fff;
+            border-radius:20px;
+            padding:25px;
+            box-shadow:0 15px 35px rgba(0,0,0,.25);
+            text-align:center;
+        }
+
+        .logo{
+            width:70px;
+            height:70px;
+            background:#2563eb;
+            color:#fff;
+            font-size:28px;
+            font-weight:bold;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:0 auto 15px;
+        }
+
+        h2{
+            color:#0f172a;
+            margin-bottom:8px;
+        }
+
+        .subtitle{
+            color:#64748b;
+            margin-bottom:25px;
+        }
+
+        .camera-wrapper{
+            border-radius:16px;
+            overflow:hidden;
+            border:3px solid #e2e8f0;
+            background:#000;
+        }
+
+        video{
+            width:100%;
+            display:block;
+        }
+
+        .status{
+            margin-top:15px;
+            font-size:15px;
+            color:#475569;
+        }
+
+        .location-box{
+            margin-top:15px;
+            padding:12px;
+            background:#f8fafc;
+            border:1px solid #e2e8f0;
+            border-radius:10px;
+            font-size:14px;
+            color:#334155;
+            text-align:left;
+            word-break:break-word;
+        }
+
+        .location-box a{
+            color:#2563eb;
+            font-weight:600;
+            text-decoration:none;
+        }
+
+        .attendance-btn{
+            margin-top:25px;
+            background:#2563eb;
+            color:white;
+            border:none;
+            padding:15px;
+            font-size:16px;
+            font-weight:600;
+            border-radius:12px;
+            cursor:pointer;
+            width:100%;
+        }
+
+        .attendance-btn:hover{
+            background:#1d4ed8;
+        }
+
+        .footer{
+            margin-top:20px;
+            color:#94a3b8;
+            font-size:13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="logo">👤</div>
+
+        <h2>Welcome {{ employee.name }}</h2>
+
+        <p class="subtitle">Face Recognition Attendance System</p>
+
+        <div class="camera-wrapper">
+            <video id="video" autoplay playsinline muted></video>
+        </div>
+
+        <div class="status" id="status">
+            Camera Ready
+        </div>
+
+        <div class="location-box" id="location">
+            📍 Fetching your current address...
+        </div>
+
+        <button class="attendance-btn" onclick="captureAttendance()">
+            📸 Mark Attendance
+        </button>
+
+        <div class="footer">
+            Secure Face Verification Enabled
+        </div>
+
+    </div>
+
+</div>
+
+<script src="/static/js/attendance.js"></script>
+<script>
+window.onload = function() {
+    getLocation();
+};
+
+function getLocation() {
+    const locationBox = document.getElementById("location");
+
+    if (!navigator.geolocation) {
+        locationBox.innerHTML = "Geolocation is not supported by this browser.";
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+    function(position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        locationBox.innerHTML = `
+            📍 Latitude: ${lat}<br>
+            📍 Longitude: ${lng}<br>
+            <a href="https://maps.google.com/?q=${lat},${lng}" target="_blank">
+                View on Google Maps
+            </a>
+        `;
+    },
+    function(error) {
+        let message = "";
+
+        switch (error.code) {
+            case 1:
+                message = "❌ Permission Denied";
+                break;
+            case 2:
+                message = "❌ Position Unavailable";
+                break;
+            case 3:
+                message = "❌ Request Timeout";
+                break;
+            default:
+                message = "❌ Unknown Error";
+        }
+
+        locationBox.innerHTML = message;
+        console.error("Location Error:", error);
+    },
+    {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    }
+);}
+</script>
+</body>
+</html>
